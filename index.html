@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>checkbox challenge</title>
+		<style type="text/css">
+
+			body {
+				margin: 0;
+			}
+
+			#container {
+				display: grid;
+				height: 500px;
+				width: 500px;
+				margin: auto;
+				grid-template-columns: repeat(5, 1fr);
+				grid-template-rows: repeat(5, 1fr);
+				align-items: center;
+
+
+
+			}
+
+			.item {
+				text-align: center;
+			}
+
+			input[type=checkbox] {
+  				transform: scale(5);
+			}
+
+
+		</style>
+	</head>
+
+
+	<body>
+
+		<div id='container'>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='0'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='1'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='2'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='3'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='4'></div>
+
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='5'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='6'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='7'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='8'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='9'></div>
+
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='10'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='11'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='12'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='13'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='14'></div>
+
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='15'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='16'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='17'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='18'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='19'></div>
+
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='20'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='21'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='22'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='23'></div>
+			<div class='item'><input type='checkbox' name='box' class='boxes' id='24'></div>
+
+			<div class='item'><input type="submit" id='submitBoxes'></div>
+		</div>
+
+
+		<script type="text/javascript">
+
+
+			// boxArray = [
+			// 	[11,21,31,41,51,12,22,32,42,52,13,23,33,43,53,14,24,34,44,54,15,25,35,45,55],
+			// 	[11,51,15,55],
+			// 	[22,42,33,24,44],
+			// 	[21,31,41,25,35,45]
+			// ];
+
+			var allBoxes = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+			var boxArray = [];
+			var boxArrayUnique = [];
+
+			for(var i=0; i<999; i++) {
+				var box1 = Math.round(Math.random() * 24);
+				var box2 = Math.round(Math.random() * 24);
+				var box3 = Math.round(Math.random() * 24);
+				var box4 = Math.round(Math.random() * 24);
+				var box5 = Math.round(Math.random() * 24);
+				boxArray.push([box1, box2, box3, box4, box5]);
+				boxArray[i].sort(function(a, b){return a-b});
+
+				boxArrayUnique.push([]);
+
+				var lastNumber = 999;
+				for(var j=0; j<boxArray[i].length; j++){
+					if(boxArray[i][j] != lastNumber){
+						boxArrayUnique[i].push(boxArray[i][j])
+					}
+					lastNumber = boxArray[i][j];
+				}
+			}
+
+
+
+
+
+			console.log(boxArray)
+			console.log(boxArrayUnique)
+
+
+
+			var level = 1;
+			runLevel(level);
+			function runLevel(level){
+				
+				function updateLevel(flash){
+					for(i=0; i<boxArray[level].length; i++){
+						document.getElementById(boxArray[level][i]).checked = flash;
+					}
+				}
+
+				var flashTime = 200;
+
+				setTimeout(function(){
+					updateLevel(true)
+					setTimeout(function(){
+						updateLevel(false)
+						setTimeout(function(){
+							updateLevel(true)
+							setTimeout(function(){
+								updateLevel(false)
+								setTimeout(function(){
+									updateLevel(true)
+									setTimeout(function(){
+										updateLevel(false)
+									}, flashTime)
+								}, flashTime)
+							}, flashTime)
+						}, flashTime)
+					}, flashTime)
+				}, flashTime)
+
+
+
+
+
+
+
+				var time = 0;
+				function timer(){
+					time = time +1;
+					console.log(time);
+					if (time<=2){
+						setTimeout(timer, 1000)
+						document.getElementById("container").style.pointerEvents = "none";
+					}
+					else {
+						for(i=0; i<allBoxes.length; i++){
+							document.getElementById(allBoxes[i]).checked = false;
+							document.getElementById("container").style.pointerEvents = "all";
+
+						}
+					}
+				}timer();
+
+				
+
+				var button = document.getElementById('submitBoxes');
+				button.addEventListener('click', function(){
+					userArray = [];
+					for(i=0; i<allBoxes.length; i++){
+						if(document.getElementById(allBoxes[i]).checked == true){
+							userArray.push(allBoxes[i]);
+						}
+					}
+					console.log(userArray)
+					console.log(JSON.stringify(boxArrayUnique[level])==JSON.stringify(userArray));
+					if(JSON.stringify(boxArrayUnique[level])==JSON.stringify(userArray)){
+						for(i=0; i<allBoxes.length; i++){
+							document.getElementById(allBoxes[i]).checked = false;
+						}
+
+						level = level + 1;
+
+						runLevel(level);
+					}
+				})
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</script>
+	</body>
+</html>
